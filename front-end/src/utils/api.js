@@ -67,3 +67,18 @@ export async function listReservations(params, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
+
+
+//Create reservation by sending a POST request to server
+
+export async function createReservation(data = {}, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations`);
+  data.people = Number(data.people);
+  const response = await fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({data}), // body data type must match "Content-Type" header
+    signal
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}

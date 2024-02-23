@@ -1,4 +1,5 @@
 const path = require("path");
+const morgan = require("morgan");
 
 require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
@@ -11,6 +12,7 @@ const reservationsRouter = require("./reservations/reservations.router");
 
 const app = express();
 
+app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
