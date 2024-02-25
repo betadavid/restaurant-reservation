@@ -4,6 +4,7 @@
  */
 import formatReservationDate from "./format-reservation-date";
 import formatReservationTime from "./format-reservation-date";
+import formatMobileNumber from "./formatMobileNumber";
 
 const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL || "http://localhost:5001";
@@ -74,11 +75,32 @@ export async function listReservations(params, signal) {
 export async function createReservation(data = {}, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   data.people = Number(data.people);
-  const response = await fetch(url, {
+  data.mobile_number = formatMobileNumber(data.mobile_number);
+  const options = {
     method: "POST",
     headers,
-    body: JSON.stringify({data}), // body data type must match "Content-Type" header
+    body: JSON.stringify({data}),
     signal
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
+  };
+  return await fetchJson(url, options, data);
 }
+
+export async function listTables(signal){
+  const url = new URL(`${API_BASE_URL}/tables`);
+  return await fetchJson(url, {headers, signal});
+}
+
+export async function updateTable(table_id, reservation_id, signal) {
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({data: {reservation_id}}),
+    signal
+  };
+  return await fetchJson(url, options);
+}
+
+
+
+

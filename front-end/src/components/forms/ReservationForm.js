@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { listReservations } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
 
 function ReservationForm({reservation = {first_name:"" ,
     last_name:"",
@@ -24,7 +22,6 @@ function ReservationForm({reservation = {first_name:"" ,
   const [formData, setFormData] = useState({...initialFormState});
 
   const handleChange = ({target}) => {
-    console.log(target.name, target.value);
     setFormData({
       ...formData,
       [target.name]: target.value
@@ -32,7 +29,6 @@ function ReservationForm({reservation = {first_name:"" ,
   };
 
   const handleCancel = () => {
-    console.log("going back!");
     history.goBack();
   }
 
@@ -62,10 +58,11 @@ function ReservationForm({reservation = {first_name:"" ,
               id="mobile_number"
               name="mobile_number"
               type="text"
-              placeholder="xxx-xxx-xxxx"
+              placeholder="mobile number"
               onChange={handleChange}
               value={formData.mobile_number}
-              required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              required
+              //required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             />
             <label htmlFor="reservation_date">Reservation Date:</label>
             <input
