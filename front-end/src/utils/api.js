@@ -113,6 +113,17 @@ export async function updateTable(table_id, reservation_id, signal) {
   return await fetchJson(url, options, table_id);
 }
 
+export async function finishTable(table_id, signal){
+  const url = new URL(`${API_BASE_URL}/tables/${table_id}/seat`);
+  const options = {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify({data: {}}),
+    signal
+  };
+  return await fetchJson(url, options, table_id);
+}
+
 
 
 

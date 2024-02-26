@@ -93,7 +93,7 @@ function tableHasSufficientCapacity(req, res, next){
   next();
 }
 
-function tableisNotOccupied(req, res, next){
+function tableIsNotOccupied(req, res, next){
   if(res.locals.table.reservation_id){
     next({
       status: 400,
@@ -101,6 +101,16 @@ function tableisNotOccupied(req, res, next){
     });
   }else{
     next();
+  }
+}
+function tableIsOccupied(req, res, next){
+  if(res.locals.table.reservation_id){
+    next();
+  }else{
+    next({
+      status: 400,
+      message: "table is not occupied"
+    });
   }
 }
 
@@ -120,7 +130,17 @@ async function update(req, res, next){
   const updatedTable = {
     ...res.locals.table,
     reservation_id: res.locals.reservation.reservation_id
-  }
+  };
+  const data = await service.update(updatedTable);
+
+  res.json({data});
+}
+
+async function freeTable(req, res, next){
+  const updatedTable = {
+    ...res.locals.table,
+    reservation_id: null
+  };
   const data = await service.update(updatedTable);
 
   res.json({data});
@@ -138,7 +158,11 @@ module.exports = {
            bodyDataHas("reservation_id"),
            asyncErrorBoundary(reservationsController.reservationExists),
            asyncErrorBoundary(tableExists),
-           tableisNotOccupied,
+           tableIsNotOccupied,
            tableHasSufficientCapacity,
-           asyncErrorBoundary(update)]
+           asyncErrorBoundary(update)],
+  delete: [hasOnlyValidProperties,
+           asyncErrorBoundary(tableExists),
+           tableIsOccupied,
+           asyncErrorBoundary(freeTable)]
 }
