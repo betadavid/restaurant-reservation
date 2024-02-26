@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import { next, previous, today } from "../utils/date-time";
 import ReservationsList from "../components/ReservationsList";
@@ -14,6 +14,7 @@ import TablesList from "../components/TablesList";
  */
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
+  const [tables, setTables] = useState([]); 
   const [reservationsError, setReservationsError] = useState(null);
   const history = useHistory();
 
@@ -25,6 +26,9 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+    listTables(abortController.signal)
+      .then(setTables)
+      .catch((error) => {throw error})
     return () => abortController.abort();
   }
 
@@ -41,6 +45,7 @@ function Dashboard({ date }) {
       </div>
       <ErrorAlert errors={reservationsError} />
       <ReservationsList reservations={reservations}/>
+      <TablesList tables={tables}/>
     </main>
   );
 }

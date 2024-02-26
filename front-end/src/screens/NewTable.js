@@ -1,29 +1,21 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import TableForm from "../components/forms/TableForm";
+import { createTable } from "../utils/api";
 
 function NewTable(){
+  const history = useHistory();
 
-  async function handleSubmit(event, reservation){
+  async function handleSubmit(event, table){
     event.preventDefault();
     const abortController = new AbortController();
-    /*
-    const errors = validateReservationData(reservation);
-
-    if(errors.length){
-      return setReservationFormErrors(errors);
-    }
-
     try{
-      await createReservation(reservation, abortController.signal);
-      history.push(`/dashboard?date=${reservation.reservation_date}`);
+      await createTable(table, abortController.signal);
+      history.push("/dashboard");
     }catch(error){
-      setApiError([error]);
+      throw error;
     }
-
     return () => abortController.abort();
-    */
-   console.log("submitted");
-   return ()=>abortController.abort();
   }
 
   return <>
