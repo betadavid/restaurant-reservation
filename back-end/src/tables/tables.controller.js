@@ -137,12 +137,8 @@ async function update(req, res, next){
 }
 
 async function freeTable(req, res, next){
-  const updatedTable = {
-    ...res.locals.table,
-    reservation_id: null
-  };
-  const data = await service.update(updatedTable);
-
+  const {reservation_id, table_id} = res.locals.table
+  const data = await service.finish(reservation_id, table_id);
   res.json({data});
 }
 
@@ -157,11 +153,12 @@ module.exports = {
   update: [hasOnlyValidProperties,
            bodyDataHas("reservation_id"),
            asyncErrorBoundary(reservationsController.reservationExists),
+           reservationsController.reservationIsNotSeated,
            asyncErrorBoundary(tableExists),
            tableIsNotOccupied,
            tableHasSufficientCapacity,
            asyncErrorBoundary(update)],
-  delete: [hasOnlyValidProperties,
+  finish: [hasOnlyValidProperties,
            asyncErrorBoundary(tableExists),
            tableIsOccupied,
            asyncErrorBoundary(freeTable)]

@@ -8,7 +8,8 @@ function Reservation({reservation}){
          mobile_number,
          reservation_date,
          reservation_time,
-         people
+         people,
+         status
         } = reservation;
 
   return <div>
@@ -16,7 +17,8 @@ function Reservation({reservation}){
             <p>Mobile: {mobile_number}</p>
             <p>date: {`${reservation_date} at ${reservation_time}`}</p>
             <p>party of: {people}</p>
-            <Link to={`/reservations/${reservation_id}/seat`}>Seat</Link>
+            <p data-reservation-id-status={reservation_id}>{status}</p>
+            {status==="booked"?<Link to={`/reservations/${reservation_id}/seat`}>Seat</Link>:<></>}
          </div>;
 }
 

@@ -1,25 +1,6 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const service = require("./reservations.service");
 
-/**
- * List handler for reservation resources
- */
-async function list(req, res) {
-  const { date } = req.query;
-  const data = await service.list(date);
-  res.status(200).json({ data });
-}
-
-async function create(req, res, next){
-  const reservation = req.body.data;
-  const data = await service.create(reservation);
-  res.status(201).json({ data });
-}
-
-async function read(req, res, next){
-  res.json({data: res.locals.reservation});
-}
-
 async function reservationExists(req, res, next){
   const reservationId = req.params.reservation_id || req.body.data.reservation_id;
   const reservation = await service.getReservationById(reservationId);
@@ -155,9 +136,84 @@ function hasOnlyValidProperties(req, res, next) {
   next();
 }
 
+function statusIsBooked(req, res, next){
+  const { status = "booked" } = req.body.data;
+  if(status === "booked"){
+    next();
+  }else{
+    next({
+      status: 400,
+      message: `statusIsBooked invalid status: ${status}`
+    });
+  }
+}
+
+function hasValidStatus(req, res, next){
+  const { status } = req.body.data;
+  const currentStatus = res.locals.reservation.status;
+
+  if(currentStatus === "finished"){
+    next({
+      status: 400,
+      message: `reservation status is ${currentStatus}`
+    });
+  }
+  const validStatus = ["booked", "seated", "finished"];
+
+  if(validStatus.includes(status)){
+    next();
+  }else{
+    next({
+      status: 400,
+      message: `hasValidStatus invalid status: ${status}`
+    });
+  }
+}
+
+function reservationIsNotSeated(req, res, next) {
+  if (res.locals.reservation.status === "seated") {
+    return next({
+      status: 400,
+      message: `reservation is already seated`,
+    });
+  }
+  next();
+}
+
+/**
+ * List handler for reservation resources
+ */
+async function list(req, res) {
+  const { date } = req.query;
+  const data = await service.list(date);
+  res.status(200).json({ data });
+}
+
+async function create(req, res, next){
+  const reservation = req.body.data;
+  const data = await service.create(reservation);
+  res.status(201).json({ data });
+}
+
+async function read(req, res, next){
+  res.json({data: res.locals.reservation});
+}
+
+async function update(req, res, next){
+  const updatedReservation = {
+    ...res.locals.reservation,
+    status: req.body.data.status
+  };
+  const data = await service.update(updatedReservation);
+  res.json({data});
+}
+
 module.exports = {
-  list: asyncErrorBoundary(list),
-  create: [bodyDataHas("first_name"),
+  reservationExists,
+  reservationIsNotSeated,
+  list: [asyncErrorBoundary(list)],
+  create: [hasOnlyValidProperties,
+    bodyDataHas("first_name"),
     bodyDataHas("last_name"),
     bodyDataHas("mobile_number"),
     bodyDataHas("reservation_date"),
@@ -168,9 +224,13 @@ module.exports = {
     isElegibleTimeFrame,
     bodyDataHas("people"),
     peopleIsNumber,
-    hasOnlyValidProperties,
+    statusIsBooked,
   asyncErrorBoundary(create)],
-  read: [reservationExists,
+  read: [asyncErrorBoundary(reservationExists),
          read],
-  reservationExists
+  update: [hasOnlyValidProperties,
+           bodyDataHas("status"),
+           asyncErrorBoundary(reservationExists),
+           hasValidStatus,
+           asyncErrorBoundary(update)]
 };
