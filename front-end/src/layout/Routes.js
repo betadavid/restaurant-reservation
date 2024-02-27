@@ -8,6 +8,7 @@ import { today } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
 import NewTable from "../screens/NewTable";
 import Seat from "../screens/Seat";
+import Search from  "../screens/Search";
 
 /**
  * Defines all the routes for the application.
@@ -33,6 +34,9 @@ function Routes() {
       </Route>
       <Route path="/dashboard">
         <Dashboard date={useQuery("date").get("date") || today()} />
+      </Route>
+      <Route exact={true} path="/search">
+        <Search />
       </Route>
       <Route>
         <NotFound />
