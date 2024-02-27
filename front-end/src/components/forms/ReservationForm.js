@@ -6,7 +6,8 @@ function ReservationForm({reservation = {first_name:"" ,
     mobile_number:"",
     reservation_date:"",
     reservation_time:"",
-    people: 0
+    people: 0,
+    status: "booked"
   }, handleSubmit}){
 
   const history = useHistory();
@@ -16,7 +17,8 @@ function ReservationForm({reservation = {first_name:"" ,
     mobile_number: reservation.mobile_number,
     reservation_date: reservation.reservation_date,
     reservation_time: reservation.reservation_time,
-    people: reservation.people
+    people: reservation.people,
+    status: reservation.status
   };
 
   const [formData, setFormData] = useState({...initialFormState});
