@@ -34,7 +34,10 @@ function ReservationForm({reservation = {first_name:"" ,
     history.goBack();
   }
 
-  return <form onSubmit={(event)=> handleSubmit(event, formData)}> 
+  return <form onSubmit={(event)=> handleSubmit(event, formData)}>
+          <div className="form-group">
+
+          </div>
             <label htmlFor="first_name">First Name:</label>
             <input
               id="first_name" 
@@ -44,7 +47,8 @@ function ReservationForm({reservation = {first_name:"" ,
               onChange={handleChange}
               value={formData.first_name}
               required
-            />
+              className="form-control form-control-lg border-dark"/>
+
             <label htmlFor="last_name">Last Name:</label>
             <input 
               id="last_name"
@@ -54,7 +58,8 @@ function ReservationForm({reservation = {first_name:"" ,
               onChange={handleChange}
               value={formData.last_name}
               required
-            />
+              className="form-control form-control-lg border-dark"/>
+
             <label htmlFor="mobile_number">Mobile Number:</label>
             <input
               id="mobile_number"
@@ -64,8 +69,8 @@ function ReservationForm({reservation = {first_name:"" ,
               onChange={handleChange}
               value={formData.mobile_number}
               required
-              //required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-            />
+              className="form-control form-control-lg border-dark"/>
+
             <label htmlFor="reservation_date">Reservation Date:</label>
             <input
               id="reservation_date"
@@ -75,7 +80,8 @@ function ReservationForm({reservation = {first_name:"" ,
               required pattern="\d{4}-\d{2}-\d{2}"
               onChange={handleChange}
               value={formData.reservation_date}
-            />
+              className="form-control form-control-lg border-dark"/>
+
             <label htmlFor="reservation_time">Time:</label>
             <input
               id="reservation_time"
@@ -85,7 +91,7 @@ function ReservationForm({reservation = {first_name:"" ,
               required pattern="[0-9]{2}:[0-9]{2}"
               onChange={handleChange}
               value={formData.reservation_time}
-            />
+              className="form-control form-control-lg border-dark"/>
             <label htmlFor="people">Party size: </label>
             <input
               id="people"
@@ -95,9 +101,11 @@ function ReservationForm({reservation = {first_name:"" ,
               onChange={handleChange}
               value={formData.people}
               required
-            />
-            <button type="submit">Submit</button>
-            <button type="button" onClick={()=>handleCancel()}>Cancel</button>
+              className="form-control form-control-lg border-dark"/>
+              <div className="mt-3">
+                <button type="submit" className="btn btn-info btn-lg btn-block">Submit</button>
+                <button type="button" className="btn btn-secondary btn-lg btn-block" onClick={()=>handleCancel()}>Cancel</button>
+              </div>
           </form >;
 }
 

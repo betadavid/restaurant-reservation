@@ -23,11 +23,11 @@ function Table({table}){
     return ()=>abortController.abort();
   }
 
-  return <div>
-            <h2>{table.table_name}</h2>
+  return <div className="container">
+            <h2>Table {table.table_name}</h2>
             <p>Capacity: {table.capacity}</p>
-            <p data-table-id-status={table.table_id}>{table.reservation_id? "occupied":"free"}</p>
-            {table.reservation_id? <button type="button" onClick={()=>finishHandler()} data-table-id-finish={table.table_id}>Finish</button>:<></>}
+            <p data-table-id-status={table.table_id} className={`${table.reservation_id? "text-danger":"text-success"}`}>{table.reservation_id? "occupied":"free"}</p>
+            {table.reservation_id? <button type="button" className="btn btn-info" onClick={()=>finishHandler()} data-table-id-finish={table.table_id}>Finish</button>:<></>}
          </div>;
 }
 

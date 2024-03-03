@@ -25,16 +25,18 @@ function Search(){
   }
 
   return <div>
-            <form onSubmit={(event)=>handleSubmit(event)}>
-              <input
-                id="mobile_number"
-                name="mobile_number"
-                placeholder="Enter a mobile number"
-                required
-                onChange={handleChange}
-                value={mobileNumber}
-              />
-              <button type="submit">Find</button>
+            <form onSubmit={(event)=>handleSubmit(event)} className="mt-3">
+              <div className="form-group">
+                <input
+                  id="mobile_number"
+                  name="mobile_number"
+                  placeholder="Enter a mobile number"
+                  required
+                  onChange={handleChange}
+                  value={mobileNumber}
+                  className="form-control form-control-lg border-dark"/>
+                <button type="submit" className="mt-3 btn btn-info btn-lg btn-block">Find</button>
+              </div>
             </form>
             <ReservationsList reservations={searchResult}/>
             {searchPerformed && searchResult.length === 0? <h3>No reservations found</h3>:<></>}
