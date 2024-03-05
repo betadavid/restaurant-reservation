@@ -9,7 +9,7 @@ import React from "react";
  */
 
 function ErrorAlert({ errors }) {
-  if(errors && errors.length !== 0){
+  if(errors[0] && errors.length !== 0){
     console.log("rendering");
     return (
         <div className="alert alert-danger m-2">

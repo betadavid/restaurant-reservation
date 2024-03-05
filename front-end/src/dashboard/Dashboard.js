@@ -36,7 +36,7 @@ function Dashboard({ date }) {
   return (
     <main>
       <h1 className="mb-4 pb-3" style={{borderBottom: "3px solid black"}}>Dashboard</h1>
-      <ErrorAlert errors={reservationsError} />
+      <ErrorAlert errors={[reservationsError]} />
       <div class="container">
         <div class="row">
           <div class="col-8">
