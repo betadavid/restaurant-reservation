@@ -119,7 +119,7 @@ export async function cancelReservation(reservation_id, signal) {
 
 export async function listTables(signal){
   const url = new URL(`${API_BASE_URL}/tables`);
-  return await fetchJson(url, {headers, signal});
+  return await fetchJson(url, {headers, signal},[]);
 }
 
 export async function createTable(data={}, signal){
