@@ -45,14 +45,14 @@ function Seat(){
   }
 
   return <form onSubmit={(event)=>handleSubmit(event)}>
-          <fieldset>
+          <fieldset className="form-group mt-3">
               <select
                 id="table_id"
                 name="table_id"
                 value={selectedTable}
                 onChange={changeHandler}
                 required
-              >
+                className="form-control form-control-lg border-dark">
                 <option value="">- Select a table -</option>
                 {tables.map(table => <option 
                                       value={table.table_id} 
@@ -62,8 +62,8 @@ function Seat(){
                                       {table.table_name} - {table.capacity}
                                     </option> )}
               </select>
-              <button onClick={()=>handleCancel()} type="button">Cancel</button>
-              <button type="submit">Submit</button>
+              <button onClick={()=>handleCancel()} type="button" className="btn btn-secondary btn-lg btn-block mt-2">Cancel</button>
+              <button type="submit" className="btn btn-info btn-lg btn-block">Submit</button>
             </fieldset>
          </form>
 }
