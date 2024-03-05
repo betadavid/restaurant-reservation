@@ -26,9 +26,9 @@ function NewReservation(){
     }catch(error){
       setApiError([error]);
     }
-
     return () => abortController.abort();
   }
+  
   return <>
         <h2> New Reservation</h2>
         <ErrorAlert errors={[...apiError, ...reservationFormErrors]}/>

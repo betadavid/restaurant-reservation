@@ -68,7 +68,7 @@ function ReservationForm({reservation = {first_name:"" ,
               placeholder="mobile number"
               onChange={handleChange}
               value={formData.mobile_number}
-              required
+              required pattern="[0-9]{3}-?[0-9]{3}-?[0-9]{4}"
               className="form-control form-control-lg border-dark"/>
 
             <label htmlFor="reservation_date">Reservation Date:</label>

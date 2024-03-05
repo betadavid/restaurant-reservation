@@ -89,7 +89,7 @@ export async function createReservation(data = {}, signal) {
     body: JSON.stringify({data}),
     signal
   };
-  return await fetchJson(url, options, data);
+  return await fetchJson(url, options, []);
 }
 
 export async function updateReservation(reservation, reservation_id, signal) {
